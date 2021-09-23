@@ -39,8 +39,8 @@ jobs:
 
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.3.0-12.1.pre'
-          channel: 'dev'
+          flutter-version: '2.5.1'
+          channel: 'stable'
 
       - uses: actions/checkout@v2
 
@@ -54,7 +54,7 @@ jobs:
         run: dart analyze .
 
       - name: Run Tests with coverage
-        run: dart test --coverage="coverage"
+        run: flutter test --coverage="coverage"
 
       - name: Prepare coverage
         run: flutter pub run coverage:format_coverage --lcov --in=coverage --out=lcov.info --packages=.packages --report-on=lib
@@ -80,8 +80,8 @@ jobs:
 
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.3.0-12.1.pre'
-          channel: 'dev'
+          flutter-version: '2.5.1'
+          channel: 'stable'
 
       - uses: actions/checkout@v2
         with:

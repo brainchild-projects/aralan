@@ -36,45 +36,48 @@ class HomePage extends StatelessWidget {
     final entries = Provider.of<ActivityListData>(context);
 
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Today’s Schedule',
-              style: theme.textTheme.headline1,
-            ),
-            Text(
-              formatDate(
-                DateTime.now(),
-                [DD, ', ', MM, ' ', d, ', ', yyyy],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(height: 30),
+              Text(
+                'Today’s Schedule',
+                style: theme.textTheme.headline1,
               ),
-              style: theme.textTheme.headline3,
-            ),
-            SizedBox(
-              width: 560,
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 50,
-                  horizontal: 8,
+              Text(
+                formatDate(
+                  DateTime.now(),
+                  [DD, ', ', MM, ' ', d, ', ', yyyy],
                 ),
-                itemCount: entries.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  var activity = entries[index];
-                  return CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    value: activity.isDone,
-                    title:
-                        Text(activity.name, style: theme.textTheme.headline3),
-                    onChanged: (foo) {
-                      entries.toggleActivity(activity);
-                    },
-                  );
-                },
+                style: theme.textTheme.headline3,
               ),
-            ),
-          ],
+              SizedBox(
+                width: 560,
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 50,
+                    horizontal: 8,
+                  ),
+                  itemCount: entries.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    var activity = entries[index];
+                    return CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: activity.isDone,
+                      title:
+                          Text(activity.name, style: theme.textTheme.headline3),
+                      onChanged: (foo) {
+                        entries.toggleActivity(activity);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
