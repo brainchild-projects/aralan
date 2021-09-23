@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Get dependencies
-        run: pub get
+        run: flutter pub get
 
       - name: Check dart formatting
         run: dart format --set-exit-if-changed .
@@ -78,7 +78,7 @@ jobs:
           fetch-depth: 0
 
       - name: Get dependencies
-        run: pub get
+        run: flutter pub get
 
       - name: Prepare release
         run: flutter pub run release_tools prepare_release -w
