@@ -88,12 +88,14 @@ jobs:
         run: flutter pub get
 
       - name: Prepare release
-        run: flutter pub run release_tools prepare_release -w
+        run: |
+          flutter pub run release_tools prepare_release -w
+          ls -la
 
       - name: Get Release Info
         id: releaseInfo
         run: |
-          if [-e VERSION.txt]
+          if [ -e VERSION.txt ]
           then
             shouldRelease="yes"
             releaseVersion=`cat VERSION.txt`
@@ -133,9 +135,11 @@ jobs:
           prerelease: false
 
       - name: Build apk.
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
         run: flutter build apk
 
       - name: Upload generated apk to the artifacts.
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
         uses: actions/upload-artifact@v1
         with:
            name: release-apk
