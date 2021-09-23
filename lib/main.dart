@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 30),
               Text(
                 'Today’s Schedule',
-                style: theme.textTheme.headline1,
+                style: theme.textTheme.headline2,
               ),
               Text(
                 formatDate(
