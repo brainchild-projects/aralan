@@ -103,11 +103,15 @@ jobs:
             echo "::set-output name=version::${releaseVersion}"
             echo "::set-output name=summary::${releaseSummary}"
             echo $releaseVersion
-            echo $releaseSummary
+            echo "$releaseSummary"
           else
             shouldRelease="false"
           fi
           echo "::set-output name=shouldRelease::${shouldRelease}"
+
+      - name: Build apk.
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
+        run: flutter build apk
 
       - name: Commit Release
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
@@ -121,28 +125,32 @@ jobs:
 
       - name: Create Release
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-        id: createRelease
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.releaseInfo.outputs.version }}
-          release_name: Release ${{ steps.releaseInfo.outputs.version }}
-          body: |
-            Changes in this Release
+          body_path: RELEASE_SUMMARY.txt
+          files: |
+            build/app/outputs/apk/release/app-release.apk
 
-            ${{ steps.releaseInfo.outputs.summary }}
+#      - name: Create Release
+#        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
+#        id: createRelease
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ steps.releaseInfo.outputs.version }}
+#          release_name: Release ${{ steps.releaseInfo.outputs.version }}
+#          body: |
+#            Changes in this Release
+#
+#            ${{ steps.releaseInfo.outputs.summary }}
+#
+#          draft: false
+#          prerelease: false
 
-          draft: false
-          prerelease: false
-
-      - name: Build apk.
-        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-        run: flutter build apk
-
-      - name: Upload generated apk to the artifacts.
-        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-        uses: actions/upload-artifact@v1
-        with:
-           name: release-apk
-           path: build/app/outputs/apk/release/app-release.apk
+#      - name: Upload generated apk to the artifacts.
+#        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
+#        uses: actions/upload-artifact@v1
+#        with:
+#           name: release-apk
+#           path: build/app/outputs/apk/release/app-release.apk
