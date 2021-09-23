@@ -52,7 +52,7 @@ jobs:
         run: dart test --coverage="coverage"
 
       - name: Prepare coverage
-        run: pub run coverage:format_coverage --lcov --in=coverage --out=lcov.info --packages=.packages --report-on=lib
+        run: flutter pub run coverage:format_coverage --lcov --in=coverage --out=lcov.info --packages=.packages --report-on=lib
 
       - name: Upload coverage
         uses: coverallsapp/github-action@v1.1.2
@@ -81,7 +81,7 @@ jobs:
         run: pub get
 
       - name: Prepare release
-        run: pub run release_tools prepare_release -w
+        run: flutter pub run release_tools prepare_release -w
 
       - name: Get Release Info
         id: releaseInfo
