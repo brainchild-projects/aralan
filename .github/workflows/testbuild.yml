@@ -99,9 +99,7 @@ jobs:
           then
             shouldRelease="yes"
             releaseVersion=$(cat VERSION.txt)
-            releaseSummary=$(cat RELEASE_SUMMARY.txt)
             echo "::set-output name=version::${releaseVersion}"
-            echo "::set-output name=summary::${releaseSummary}"
             echo $releaseVersion
             echo "$releaseSummary"
           else
@@ -128,6 +126,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body_path: RELEASE_SUMMARY.txt
+          tag_name: ${{ steps.releaseInfo.outputs.version }}
           files: |
             build/app/outputs/apk/release/app-release.apk
 
