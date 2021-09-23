@@ -98,10 +98,12 @@ jobs:
           if [ -e VERSION.txt ]
           then
             shouldRelease="yes"
-            releaseVersion=`cat VERSION.txt`
-            releaseSummary=`cat RELEASE_SUMMARY.txt`
+            releaseVersion=$(cat VERSION.txt)
+            releaseSummary=$(cat RELEASE_SUMMARY.txt)
             echo "::set-output name=version::${releaseVersion}"
             echo "::set-output name=summary::${releaseSummary}"
+            echo $releaseVersion
+            echo $releaseSummary
           else
             shouldRelease="false"
           fi
@@ -124,12 +126,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.nextVersion.outputs.value }}
-          release_name: Release ${{ steps.nextVersion.outputs.value }}
+          tag_name: ${{ steps.releaseInfo.outputs.version }}
+          release_name: Release ${{ steps.releaseInfo.outputs.version }}
           body: |
             Changes in this Release
 
-            ${{ steps.changelog.outputs.summary }}
+            ${{ steps.releaseInfo.outputs.summary }}
 
           draft: false
           prerelease: false
