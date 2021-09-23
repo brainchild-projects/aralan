@@ -33,9 +33,13 @@ jobs:
       - name: Check if we were able to save branch info
         run: echo ${{ steps.branchinfo.outputs.branch }}
 
-      - uses: cedx/setup-dart@v2
+      - uses: actions/setup-java@v1
         with:
-          release-channel: stable
+          java-version: '12.x'
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.3.0'
 
       - uses: actions/checkout@v2
 
@@ -69,9 +73,13 @@ jobs:
     steps:
       - run: echo ${{ needs.test.outputs.branch }}
 
-      - uses: cedx/setup-dart@v2
+      - uses: actions/setup-java@v1
         with:
-          release-channel: stable
+          java-version: '12.x'
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.3.0'
 
       - uses: actions/checkout@v2
         with:
