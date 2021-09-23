@@ -54,7 +54,7 @@ jobs:
         run: dart analyze .
 
       - name: Run Tests with coverage
-        run: flutter test --coverage="coverage"
+        run: flutter test --coverage
 
       - name: Prepare coverage
         run: flutter pub run coverage:format_coverage --lcov --in=coverage --out=lcov.info --packages=.packages --report-on=lib
