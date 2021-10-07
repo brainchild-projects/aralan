@@ -128,11 +128,11 @@ jobs:
 
       - name: Build apk
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-        run: flutter build --release
+        run: flutter build apk
 
       - name: Build bundle
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-        run: flutter build --release appbundle
+        run: flutter build appbundle
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
