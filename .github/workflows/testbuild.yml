@@ -123,7 +123,8 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEYSTORE_KEYPASS }}" >> key.properties
           echo "storePassword=${{ secrets.ANDROID_KEYSTORE_STOREPASS }}" >> key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> key.properties
-          echo "storeFile=${{ steps.androidKeystore.outputs.filePath }}" > key.properties
+          storePath="$(pwd)/app/upload-keystore.jks"
+          echo "storeFile=$storePath" > key.properties
         working-directory: android
 
       - name: Build apk
