@@ -24,11 +24,11 @@ class TinyAppTheme {
       primaryColor: colorScheme.primary,
       backgroundColor: colorScheme.background,
       appBarTheme: AppBarTheme(
-        textTheme: _textTheme.apply(bodyColor: colorScheme.onBackground),
+        // textTheme: _textTheme.apply(bodyColor: colorScheme.onBackground),
+        // toolbarTextStyle: ,
         color: colorScheme.background,
         elevation: 0,
         iconTheme: IconThemeData(color: colorScheme.primary),
-        brightness: colorScheme.brightness,
       ),
       iconTheme: IconThemeData(color: colorScheme.onPrimary),
       canvasColor: colorScheme.background,

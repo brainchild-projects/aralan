@@ -6,9 +6,9 @@ import 'package:flutter/foundation.dart';
 class ActivityListData extends ChangeNotifier {
   final List<Activity> _activities = [
     Activity(name: 'Exercise'),
+    Activity(name: 'Reading'),
     Activity(name: 'Worksheet'),
-    Activity(name: 'Khan Academy'),
-    Activity(name: 'Physical Education (P.E.)'),
+    // Activity(name: 'Physical Education (P.E.)'),
     Activity(name: 'Computer'),
   ];
 
