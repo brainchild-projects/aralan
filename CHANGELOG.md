@@ -1,3 +1,17 @@
+# 1.2.0+1 (2021-10-07)
+
+## Bug Fixes
+
+- release code ([e75899a](commit/e75899a))
+- use a different release action ([679aee1](commit/679aee1))
+- release details ([c840501](commit/c840501))
+- release info ([7ebd701](commit/7ebd701))
+- style tweak ([940107a](commit/940107a))
+
+## Features
+
+- android release ([d869edc](commit/d869edc))
+
 # 1.1.0+1 (2021-10-07)
 
 ## Features
