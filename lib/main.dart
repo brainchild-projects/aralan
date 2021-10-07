@@ -2,6 +2,7 @@ import 'package:aralan/models/activity_list_data.dart';
 import 'package:aralan/tiny_app_theme.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -16,10 +17,15 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ActivityListData(),
-      child: MaterialApp(
-        title: 'Aralan',
-        theme: TinyAppTheme.lightThemeData,
-        home: const HomePage(title: "Aralan"),
+      child: Shortcuts(
+        shortcuts: <LogicalKeySet, Intent>{
+          LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+        },
+        child: MaterialApp(
+          title: 'Aralan',
+          theme: TinyAppTheme.lightThemeData,
+          home: const HomePage(title: "Aralan"),
+        ),
       ),
     );
   }

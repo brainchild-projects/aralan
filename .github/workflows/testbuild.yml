@@ -107,10 +107,6 @@ jobs:
           fi
           echo "::set-output name=shouldRelease::${shouldRelease}"
 
-      - name: Build apk.
-        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-        run: flutter build apk
-
       - name: Commit Release
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
         run: |
@@ -121,6 +117,50 @@ jobs:
           git commit -m "chore(release): release for ${{ steps.nextVersion.outputs.value }}"
           git push
 
+      - name: Create key.properties
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > app/upload-keystore.jks
+          echo "keyPassword=${{ secrets.ANDROID_KEYSTORE_KEYPASS }}" >> key.properties
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_STOREPASS }}" >> key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> key.properties
+          echo "storeFile=${{ steps.androidKeystore.outputs.filePath }}" > key.properties
+        working-directory: android
+
+      - name: Build apk
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
+        run: flutter build --release
+
+      - name: Build bundle
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
+        run: flutter build --release appbundle
+
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+
+      - name: Cache bundle dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gems-
+
+      - name: Download bundle dependencies
+        run: |
+          gem install bundler:2.0.2
+          bundle config path vendor/bundle
+          bundle install
+
+      - name: Release to Google Play (beta)
+        env:
+          SUPPLY_PACKAGE_NAME: ${{ secrets.ANDROID_PACKAGE_NAME }}
+          SUPPLY_JSON_KEY_DATA: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+        run: |
+          bundle exec fastlane supply \
+          --aab build/app/outputs/bundle/release/app-release.aab \
+          --track beta
+
       - name: Create Release
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
         uses: softprops/action-gh-release@v1
@@ -129,27 +169,3 @@ jobs:
           tag_name: ${{ steps.releaseInfo.outputs.version }}
           files: |
             build/app/outputs/apk/release/app-release.apk
-
-#      - name: Create Release
-#        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-#        id: createRelease
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: ${{ steps.releaseInfo.outputs.version }}
-#          release_name: Release ${{ steps.releaseInfo.outputs.version }}
-#          body: |
-#            Changes in this Release
-#
-#            ${{ steps.releaseInfo.outputs.summary }}
-#
-#          draft: false
-#          prerelease: false
-
-#      - name: Upload generated apk to the artifacts.
-#        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-#        uses: actions/upload-artifact@v1
-#        with:
-#           name: release-apk
-#           path: build/app/outputs/apk/release/app-release.apk
