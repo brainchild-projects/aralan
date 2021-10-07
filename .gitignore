@@ -31,6 +31,10 @@
 .pub/
 /build/
 
+# Release Files
+RELEASE_SUMMARY.txt
+VERSION.txt
+
 # Web related
 lib/generated_plugin_registrant.dart
 
