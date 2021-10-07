@@ -110,13 +110,16 @@ jobs:
 
       - name: Create key.properties
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > app/upload-keystore.jks
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > app/upload-keystore.jks
           echo "keyPassword=${{ secrets.ANDROID_KEYSTORE_KEYPASS }}" >> key.properties
           echo "storePassword=${{ secrets.ANDROID_KEYSTORE_STOREPASS }}" >> key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> key.properties
           storePath="$(pwd)/app/upload-keystore.jks"
           echo "storeFile=$storePath" > key.properties
+          ls -ld app/upload-keystore.jks
         working-directory: android
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
 
       - name: Build apk
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
