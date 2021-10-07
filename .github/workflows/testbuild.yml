@@ -115,7 +115,7 @@ jobs:
           echo "storePassword=$ANDROID_KEYSTORE_STOREPASS" >> key.properties
           echo "keyAlias=$ANDROID_KEYSTORE_ALIAS" >> key.properties
           storePath="$(pwd)/app/upload-keystore.jks"
-          echo "storeFile=$storePath" > key.properties
+          echo "storeFile=$storePath" >> key.properties
           ls -ld app/upload-keystore.jks
         working-directory: android
         env:
