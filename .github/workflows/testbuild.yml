@@ -111,9 +111,9 @@ jobs:
       - name: Create key.properties
         run: |
           echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > app/upload-keystore.jks
-          echo "keyPassword=\"$ANDROID_KEYSTORE_KEYPASS\"" >> key.properties
-          echo "storePassword=\"$ANDROID_KEYSTORE_STOREPASS\"" >> key.properties
-          echo "keyAlias=\"$ANDROID_KEYSTORE_ALIAS\"" >> key.properties
+          echo "keyPassword=$ANDROID_KEYSTORE_KEYPASS" >> key.properties
+          echo "storePassword=$ANDROID_KEYSTORE_STOREPASS" >> key.properties
+          echo "keyAlias=$ANDROID_KEYSTORE_ALIAS" >> key.properties
           storePath="$(pwd)/app/upload-keystore.jks"
           echo "storeFile=$storePath" > key.properties
           ls -ld app/upload-keystore.jks
