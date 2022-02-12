@@ -136,11 +136,13 @@ jobs:
         run: flutter build appbundle
 
       - name: Setup Ruby
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
         uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.6'
 
       - name: Cache bundle dependencies
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
         uses: actions/cache@v2
         with:
           path: vendor/bundle
@@ -148,12 +150,14 @@ jobs:
           restore-keys: ${{ runner.os }}-gems-
 
       - name: Download bundle dependencies
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
         run: |
           gem install bundler:2.0.2
           bundle config path vendor/bundle
           bundle install
 
       - name: Release to Google Play (beta)
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
         env:
           SUPPLY_PACKAGE_NAME: ${{ secrets.ANDROID_PACKAGE_NAME }}
           SUPPLY_JSON_KEY_DATA: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
