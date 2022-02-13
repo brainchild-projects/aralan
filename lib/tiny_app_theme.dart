@@ -85,7 +85,7 @@ class TinyAppTheme {
   static const _regular = FontWeight.w400;
   static const _bold = FontWeight.w700;
 
-  static const _fontFamily = 'ABeeZee';
+  static const _fontFamily = 'Andika New Basic';
 
   static textStyle({
     FontWeight fontWeight = _regular,

@@ -38,3 +38,8 @@ flutter:
         - asset: fonts/ABeeZee/ABeeZee-Regular.ttf
         - asset: fonts/ABeeZee/ABeeZee-Italic.ttf
           style: italic
+    - family: Andika New Basic
+      fonts:
+        - asset: fonts/Andika_New_Basic/AndikaNewBasic-readable-R.ttf
+        - asset: fonts/Andika_New_Basic/AndikaNewBasic-readable-I.ttf
+          style: italic
