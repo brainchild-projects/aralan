@@ -93,7 +93,6 @@ jobs:
           flutter pub run release_tools prepare_release -w
           head pubspec.yaml
           cat VERSION.txt
-          rm VERSION.txt
 
       - name: Get Release Info
         id: releaseInfo
