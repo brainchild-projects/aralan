@@ -163,7 +163,7 @@ jobs:
         run: |
           bundle exec fastlane supply \
           --aab build/app/outputs/bundle/release/app-release.aab \
-          --track beta
+          --track internal
 
       - name: Commit Release
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
