@@ -1,0 +1,13 @@
+current directory: /home/runner/work/aralan/aralan/vendor/bundle/gems/json-2.6.1/ext/json
+/opt/hostedtoolcache/Ruby/2.6.9/x64/bin/ruby -I /opt/hostedtoolcache/Ruby/2.6.9/x64/lib/ruby/2.6.0 -r ./siteconf20220217-2501-1fykn2u.rb extconf.rb
+creating Makefile
+
+current directory: /home/runner/work/aralan/aralan/vendor/bundle/gems/json-2.6.1/ext/json
+make "DESTDIR=" clean
+
+current directory: /home/runner/work/aralan/aralan/vendor/bundle/gems/json-2.6.1/ext/json
+make "DESTDIR="
+make: Nothing to be done for 'all'.
+
+current directory: /home/runner/work/aralan/aralan/vendor/bundle/gems/json-2.6.1/ext/json
+make "DESTDIR=" install
