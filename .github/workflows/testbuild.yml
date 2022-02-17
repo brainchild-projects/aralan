@@ -140,20 +140,20 @@ jobs:
         with:
           ruby-version: '2.6'
 
-      - name: Cache bundle dependencies
-        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: ${{ runner.os }}-gems-
-
-      - name: Download bundle dependencies
-        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
-        run: |
-          gem install bundler:2.0.2
-          bundle config path vendor/bundle
-          bundle install
+#      - name: Cache bundle dependencies
+#        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
+#        uses: actions/cache@v2
+#        with:
+#          path: vendor/bundle
+#          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+#          restore-keys: ${{ runner.os }}-gems-
+#
+#      - name: Download bundle dependencies
+#        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
+#        run: |
+#          gem install bundler:2.0.2
+#          bundle config path vendor/bundle
+#          bundle install
 
       - name: Cache bundle dependencies
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
