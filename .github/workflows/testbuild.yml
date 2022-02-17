@@ -155,6 +155,22 @@ jobs:
           bundle config path vendor/bundle
           bundle install
 
+      - name: Cache bundle dependencies
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
+        uses: actions/cache@v2
+        with:
+          path: android/vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gems-
+
+      - name: Download bundle dependencies
+        if: steps.releaseInfo.outputs.shouldRelease == 'yes'
+        run: |
+          cd android
+          gem install bundler:2.0.2
+          bundle config path vendor/bundle
+          bundle install
+
       - name: Release to Google Play (beta)
         if: steps.releaseInfo.outputs.shouldRelease == 'yes'
         env:
