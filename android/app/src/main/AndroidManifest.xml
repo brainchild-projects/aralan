@@ -1,9 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.brainchildprojects.aralan">
    <application
-        android:label="aralan"
-        android:icon="@mipmap/ic_launcher">
-        <activity
+       android:name="io.flutter.app.FlutterApplication"
+       android:label="aralan"
+       android:banner="@drawable/aralan_banner"
+       android:icon="@mipmap/ic_launcher">
+
+       <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -29,6 +32,7 @@
               />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -38,4 +42,8 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <uses-feature android:name="android.software.leanback"
+        android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen"
+        android:required="false" />
 </manifest>
