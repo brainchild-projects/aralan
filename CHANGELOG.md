@@ -1,3 +1,21 @@
+# 1.5.0 (2022-02-18)
+
+## Bug Fixes
+
+- keystore path ([2e6cd09](commit/2e6cd09))
+- release code ([e75899a](commit/e75899a))
+- use a different release action ([679aee1](commit/679aee1))
+- release details ([c840501](commit/c840501))
+- release info ([7ebd701](commit/7ebd701))
+- style tweak ([940107a](commit/940107a))
+
+## Features
+
+- android tv enabled ([7f124f3](commit/7f124f3))
+- flag ceremony and KAK activities ([f84a410](commit/f84a410))
+- change font to Andika ([42c7f1b](commit/42c7f1b))
+- android release ([d869edc](commit/d869edc))
+
 # 1.4.0 (2022-02-18)
 
 ## Bug Fixes
