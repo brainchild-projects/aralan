@@ -101,7 +101,8 @@ jobs:
           then
             shouldRelease="yes"
             cat pubspec.yaml
-            releaseVersion=$(cat VERSION.txt)
+            versionWithBuild=$(cat VERSION.txt)
+            releaseVersion=${versionWithBuild%%+*}
             echo "::set-output name=version::${releaseVersion}"
             echo $releaseVersion
             echo "$releaseSummary"
