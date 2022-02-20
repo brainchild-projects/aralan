@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.brainchildprojects.aralan">
-    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="31" />
+    <uses-sdk android:minSdkVersion="22" android:targetSdkVersion="31" />
     <uses-feature android:name="android.software.leanback"
         android:required="false"
         />
@@ -10,8 +10,9 @@
         />
     <application
         android:label="aralan"
-        android:banner="@drawable/aralan_banner"
-        android:icon="@mipmap/ic_launcher">
+        android:banner="@drawable/aralan"
+        android:icon="@mipmap/ic_launcher"
+        tools:targetApi="lollipop">
 
         <activity
             android:exported="true"
