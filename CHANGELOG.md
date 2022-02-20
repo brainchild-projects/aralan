@@ -1,3 +1,13 @@
+# 1.6.0 (2022-02-20)
+
+## Bug Fixes
+
+- no target sdk in androidmanifest.xml ([eaf6e57](commit/eaf6e57))
+
+## Features
+
+- new logo and banner ([1397d99](commit/1397d99))
+
 # 1.5.0 (2022-02-18)
 
 ## Bug Fixes
