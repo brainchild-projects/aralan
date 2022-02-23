@@ -1,3 +1,9 @@
+# 1.7.0 (2022-02-23)
+
+## Features
+
+- try saving state between opens ([fd1bb35](commit/fd1bb35))
+
 # 1.6.0 (2022-02-20)
 
 ## Bug Fixes
