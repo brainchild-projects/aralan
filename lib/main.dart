@@ -15,8 +15,53 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return AppLifecycleReactor();
+  }
+}
+
+class AppLifecycleReactor extends StatefulWidget {
+  const AppLifecycleReactor({Key? key}) : super(key: key);
+
+  @override
+  State<AppLifecycleReactor> createState() => _AppLifecycleReactorState();
+}
+
+class _AppLifecycleReactorState extends State<AppLifecycleReactor>
+    with WidgetsBindingObserver {
+  DateTime _now;
+
+  _AppLifecycleReactorState() : _now = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      final rightNow = DateTime.now();
+      final differenceInDays = rightNow.difference(_now).inDays;
+      if (differenceInDays != 0) {
+        setState(() {
+          _now = rightNow;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ActivityListData(),
+      create: (context) => ActivityListData(_now),
       child: Shortcuts(
         shortcuts: <LogicalKeySet, Intent>{
           LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
@@ -24,7 +69,10 @@ class App extends StatelessWidget {
         child: MaterialApp(
           title: 'Aralan',
           theme: TinyAppTheme.lightThemeData,
-          home: const HomePage(title: "Aralan"),
+          home: HomePage(
+            title: "Aralan",
+            loadedAt: _now,
+          ),
         ),
       ),
     );
@@ -32,9 +80,11 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+  const HomePage({Key? key, required this.title, required this.loadedAt})
+      : super(key: key);
 
   final String title;
+  final DateTime loadedAt;
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +100,14 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 30),
               Text(
                 'Today’s Schedule',
-                style: theme.textTheme.headline2,
+                style: theme.textTheme.headline3,
               ),
               Text(
                 formatDate(
-                  DateTime.now(),
+                  loadedAt,
                   [DD, ', ', MM, ' ', d, ', ', yyyy],
                 ),
-                style: theme.textTheme.headline3,
+                style: theme.textTheme.headline4,
               ),
               SizedBox(
                 width: 560,
@@ -71,16 +121,25 @@ class HomePage extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     var activity = entries[index];
                     return CheckboxListTile(
+                      dense: true,
                       controlAffinity: ListTileControlAffinity.leading,
                       value: activity.isDone,
-                      title:
-                          Text(activity.name, style: theme.textTheme.headline3),
+                      title: Text(
+                        activity.name,
+                        style: theme.textTheme.headline4?.copyWith(
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
                       onChanged: (foo) {
                         entries.toggleActivity(activity);
                       },
                     );
                   },
                 ),
+              ),
+              Text(
+                'Loaded At: $loadedAt',
+                style: theme.textTheme.bodyText1,
               ),
             ],
           ),

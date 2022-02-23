@@ -13,8 +13,8 @@ final List<Activity> _allActivities = [
   Activity(name: 'Computer Work'),
 ];
 
-UnmodifiableListView<Activity> filteredActivities() {
-  final today = DateTime.now().weekday;
+UnmodifiableListView<Activity> filteredActivities(DateTime now) {
+  final today = now.weekday;
   return UnmodifiableListView(_allActivities.where((activity) {
     if (activity.name == 'Flag Ceremony') {
       return today == DateTime.monday;
@@ -24,8 +24,10 @@ UnmodifiableListView<Activity> filteredActivities() {
 }
 
 class ActivityListData extends ChangeNotifier {
+  final DateTime now;
+  ActivityListData(this.now);
   UnmodifiableListView<Activity> get activities {
-    return filteredActivities();
+    return filteredActivities(now);
   }
 
   add(Activity activity) {
@@ -43,7 +45,7 @@ class ActivityListData extends ChangeNotifier {
     notifyListeners();
   }
 
-  int get length => filteredActivities().length;
-  operator [](int i) => filteredActivities()[i];
+  int get length => filteredActivities(now).length;
+  operator [](int i) => filteredActivities(now)[i];
   operator []=(int i, Activity activity) => _allActivities[i] = activity;
 }
