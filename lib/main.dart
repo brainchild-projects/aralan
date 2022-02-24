@@ -15,8 +15,12 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return AppLifecycleReactor();
+    return const AppLifecycleReactor();
   }
+}
+
+bool isSameDate(DateTime a, b) {
+  return a.day == b.day && a.month == b.month && a.year == b.year;
 }
 
 class AppLifecycleReactor extends StatefulWidget {
@@ -49,8 +53,7 @@ class _AppLifecycleReactorState extends State<AppLifecycleReactor>
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       final rightNow = DateTime.now();
-      final differenceInDays = rightNow.difference(_now).inDays;
-      if (differenceInDays != 0) {
+      if (!isSameDate(_now, rightNow)) {
         setState(() {
           _now = rightNow;
         });
