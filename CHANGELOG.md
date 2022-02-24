@@ -1,3 +1,9 @@
+# 1.7.1 (2022-02-24)
+
+## Bug Fixes
+
+- calculating same date ([0d38bbb](commit/0d38bbb))
+
 # 1.7.0 (2022-02-23)
 
 ## Features
