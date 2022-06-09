@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
   testWidgets('It should show heading', (WidgetTester tester) async {
     tester.binding.window.physicalSizeTestValue = const Size(1920, 1080);
     // Build our app and trigger a frame.
