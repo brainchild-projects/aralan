@@ -1,22 +1,26 @@
-import 'package:aralan/models/activity_list_data.dart';
+import 'package:aralan/models/activity_repository.dart';
 import 'package:aralan/tiny_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
 
-void main() {
-  runApp(const App());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  runApp(App(prefs: prefs));
 }
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  final SharedPreferences prefs;
+  const App({Key? key, required this.prefs}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const AppLifecycleReactor();
+    return AppLifecycleReactor(prefs: prefs);
   }
 }
 
@@ -25,7 +29,8 @@ bool isSameDate(DateTime a, b) {
 }
 
 class AppLifecycleReactor extends StatefulWidget {
-  const AppLifecycleReactor({Key? key}) : super(key: key);
+  final SharedPreferences prefs;
+  const AppLifecycleReactor({Key? key, required this.prefs}) : super(key: key);
 
   @override
   State<AppLifecycleReactor> createState() => _AppLifecycleReactorState();
@@ -65,7 +70,7 @@ class _AppLifecycleReactorState extends State<AppLifecycleReactor>
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ActivityListData(_now),
+      create: (context) => ActivityRepository(widget.prefs),
       child: Shortcuts(
         shortcuts: <LogicalKeySet, Intent>{
           LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),

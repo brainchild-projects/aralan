@@ -1,12 +1,15 @@
+import 'package:aralan/elements/list_container.dart';
+import 'package:aralan/elements/toggle_activity.dart';
+import 'package:aralan/models/activity.dart';
+import 'package:aralan/models/activity_repository.dart';
 import 'package:aralan/settings_page.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'elements/navigation_button.dart';
-import 'models/activity_list_data.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title, required this.loadedAt})
       : super(key: key);
 
@@ -14,9 +17,22 @@ class HomePage extends StatelessWidget {
   final DateTime loadedAt;
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late DateTime now;
+
+  @override
+  initState() {
+    super.initState();
+    now = widget.loadedAt;
+  }
+
+  @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    final entries = Provider.of<ActivityListData>(context);
+    final repo = Provider.of<ActivityRepository>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -28,7 +44,11 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SettingsPage()),
-                )
+                ).then((_) {
+                  setState(() {
+                    now = DateTime.now();
+                  });
+                })
               },
             ),
             Center(
@@ -42,41 +62,27 @@ class HomePage extends StatelessWidget {
                   ),
                   Text(
                     formatDate(
-                      loadedAt,
+                      now,
                       [DD, ', ', MM, ' ', d, ', ', yyyy],
                     ),
                     style: theme.textTheme.headline4,
                   ),
                   SizedBox(
                     width: 560,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 50,
-                        horizontal: 8,
-                      ),
-                      itemCount: entries.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        var activity = entries[index];
-                        return CheckboxListTile(
-                          dense: true,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          value: activity.isDone,
-                          title: Text(
-                            activity.name,
-                            style: theme.textTheme.headline4?.copyWith(
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          onChanged: (foo) {
-                            entries.toggleActivity(activity);
+                    child: ListContainer<CheckableActivity>(
+                      list: repo.activitiesToday(now).activities,
+                      builder: (activity, context) {
+                        return ToggleActivity(
+                          activity: activity,
+                          onToggle: (foo) {
+                            repo.toggleActivityToday(activity, now);
                           },
                         );
                       },
                     ),
                   ),
                   Text(
-                    'Loaded At: $loadedAt',
+                    'Reload At: $now',
                     style: theme.textTheme.bodyText1,
                   ),
                 ],

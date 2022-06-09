@@ -52,9 +52,9 @@ class TinyAppTheme {
 
   static const ColorScheme lightColorScheme = ColorScheme(
     primary: kBlue,
-    primaryVariant: Color(0xFF2D9CDB),
+    primaryContainer: Color(0xFF2D9CDB),
     secondary: Color(0xFFF2994A),
-    secondaryVariant: Color(0xFFF2C94C),
+    secondaryContainer: Color(0xFFF2C94C),
     background: Colors.white,
     surface: Colors.white,
     error: _lightFillColor,
@@ -68,9 +68,9 @@ class TinyAppTheme {
 
   static const ColorScheme darkColorScheme = ColorScheme(
     primary: Color(0xFF56CCF2),
-    primaryVariant: Color(0xFF1CDEC9),
+    primaryContainer: Color(0xFF1CDEC9),
     secondary: Color(0xFFF8D670),
-    secondaryVariant: Color(0xFFFFFA89),
+    secondaryContainer: Color(0xFFFFFA89),
     background: _darkFillColor,
     surface: _darkFillColor,
     error: _darkFillColor,
