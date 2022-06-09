@@ -1,3 +1,14 @@
+# 1.8.0 (2022-06-09)
+
+## Bug Fixes
+
+- update libraries ([417adfa](commit/417adfa))
+
+## Features
+
+- settings and daily activities ([24aa70c](commit/24aa70c))
+- settings page ([10177c9](commit/10177c9))
+
 # 1.7.1 (2022-02-24)
 
 ## Bug Fixes
