@@ -1,19 +1,20 @@
 import 'package:aralan/elements/toggle_activity.dart';
+import 'package:aralan/tools/reorder.dart';
 import 'package:flutter/material.dart';
 
 import '../models/activity.dart';
-import 'editable_activity.dart';
+import 'activity_list_tile.dart';
 import 'h3.dart';
 import 'list_container.dart';
 
 typedef OnChooseActivities = Function(List<Activity> activity);
 
-class EditActivities extends StatefulWidget {
+class ChooseAndOrderActivities extends StatefulWidget {
   final List<Activity> list;
   final OnChooseActivities onChoose;
   final List<Activity> available;
   final String? title;
-  const EditActivities({
+  const ChooseAndOrderActivities({
     Key? key,
     required this.list,
     required this.onChoose,
@@ -22,10 +23,11 @@ class EditActivities extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<EditActivities> createState() => _EditActivitiesState();
+  State<ChooseAndOrderActivities> createState() =>
+      _ChooseAndOrderActivitiesState();
 }
 
-class _EditActivitiesState extends State<EditActivities> {
+class _ChooseAndOrderActivitiesState extends State<ChooseAndOrderActivities> {
   Set<String> _selectedActivities = {};
 
   @override
@@ -89,14 +91,12 @@ class _EditActivitiesState extends State<EditActivities> {
       onReorder: (a, b) {
         setState(() {
           final tempList = _selectedActivities.toList();
-          final removed = tempList.removeAt(a);
-          tempList.insert(b, removed);
-          _selectedActivities = Set.from(tempList);
+          _selectedActivities = Set.from(reorder(tempList, a, b));
           widget.onChoose(_chosenActivities());
         });
       },
       builder: (activity, _) {
-        return EditableActivity(
+        return ActivityListTile(
           key: Key(activity.id),
           activity: activity,
         );

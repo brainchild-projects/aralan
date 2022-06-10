@@ -77,6 +77,11 @@ class ActivityRepository extends ChangeNotifier {
     _updateStore();
   }
 
+  update(Activity activity) {
+    _activitiesCache[activity.id] = activity;
+    _updateStore();
+  }
+
   List<Activity> forWeekday(int weekday) {
     final ids = _prefs.getStringList(_weekDayKey(weekday));
     if (ids != null) {

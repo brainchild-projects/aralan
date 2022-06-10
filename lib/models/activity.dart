@@ -21,6 +21,10 @@ class Activity extends ActivityLike {
         'name': name,
         'id': id,
       };
+
+  Activity update({required name}) {
+    return Activity(name: name, id: id);
+  }
 }
 
 class CheckableActivity extends ActivityLike {

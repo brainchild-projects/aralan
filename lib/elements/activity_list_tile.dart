@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../models/activity.dart';
 
-class EditableActivity extends StatelessWidget {
+class ActivityListTile extends StatelessWidget {
   final Activity activity;
 
-  const EditableActivity({Key? key, required this.activity}) : super(key: key);
+  const ActivityListTile({Key? key, required this.activity}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

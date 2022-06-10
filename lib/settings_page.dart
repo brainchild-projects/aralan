@@ -1,5 +1,6 @@
-import 'package:aralan/elements/edit_activities.dart';
-import 'package:aralan/elements/editable_activity.dart';
+import 'package:aralan/elements/activity_dialog.dart';
+import 'package:aralan/elements/choose_and_order_activities.dart';
+import 'package:aralan/elements/editable_activity_tile.dart';
 import 'package:aralan/elements/navigation_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,24 @@ class SettingsPage extends StatelessWidget {
     final repo = Provider.of<ActivityRepository>(context);
     final allActivities = repo.all();
     final now = DateTime.now();
+
+    onChooseActivitiesToday(activities) {
+      repo.updateActivitiesToday(
+        ActivitiesToday.fromPlainActivities(
+          now,
+          activities,
+        ),
+      );
+    }
+
+    onChooseDailyActivities(int weekday) {
+      return (activities) {
+        repo.updateForWeekday(
+          weekday,
+          activities,
+        );
+      };
+    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -49,10 +68,23 @@ class SettingsPage extends StatelessWidget {
                             ListContainer<Activity>(
                               list: allActivities,
                               builder: (activity, context) {
-                                return EditableActivity(
-                                  activity: activity,
-                                );
+                                return EditableActivityTile(
+                                    activity: activity,
+                                    onChange: (activity) {
+                                      // debugPrint('Edited: ${activity.name}');
+                                      repo.update(activity);
+                                    });
                               },
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                final newActivity = await ActivityDialog.open(
+                                    context, Activity(name: ''));
+                                if (newActivity is Activity) {
+                                  repo.add(newActivity);
+                                }
+                              },
+                              child: const Text('Add an Activity'),
                             ),
                           ],
                         ),
@@ -61,30 +93,18 @@ class SettingsPage extends StatelessWidget {
                         child: Column(
                           children: [
                             const H2('Day Activities'),
-                            EditActivities(
+                            ChooseAndOrderActivities(
                               title: 'Activities Today',
                               list: repo.activitiesToday(now).plainActivities(),
-                              onChoose: (activities) {
-                                repo.updateActivitiesToday(
-                                  ActivitiesToday.fromPlainActivities(
-                                    now,
-                                    activities,
-                                  ),
-                                );
-                              },
+                              onChoose: onChooseActivitiesToday,
                               available: allActivities,
                             ),
                             ...(weekdays.keys.map((weekday) {
-                              return EditActivities(
+                              return ChooseAndOrderActivities(
                                 title: weekdays[weekday].toString(),
                                 list: repo.forWeekday(weekday),
                                 available: allActivities,
-                                onChoose: (activities) {
-                                  repo.updateForWeekday(
-                                    weekday,
-                                    activities,
-                                  );
-                                },
+                                onChoose: onChooseDailyActivities(weekday),
                               );
                             })),
                           ],
