@@ -1,3 +1,9 @@
+# 1.9.0 (2022-06-10)
+
+## Features
+
+- can now add new activities ([fb74130](commit/fb74130))
+
 # 1.8.0 (2022-06-09)
 
 ## Bug Fixes
