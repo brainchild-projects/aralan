@@ -13,11 +13,13 @@ class TodaysActivities extends StatelessWidget {
     final now = DateTime.now();
     final allActivities = repo.all();
     onChooseActivitiesToday(activities) {
+      final newActivities = ActivitiesToday.fromPlainActivities(
+        now,
+        activities,
+      );
+
       repo.updateActivitiesToday(
-        ActivitiesToday.fromPlainActivities(
-          now,
-          activities,
-        ),
+        newActivities.mapDone(repo.activitiesToday(now).activities),
       );
     }
 

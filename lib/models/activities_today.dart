@@ -37,6 +37,25 @@ class ActivitiesToday {
     return ActivitiesToday(todayKey, activities);
   }
 
+  ActivitiesToday mapDone(List<CheckableActivity> checkedActivities) {
+    final newActivities = activities.map((activity) {
+      final before = checkedActivities.firstWhere(
+        (element) => element.id == activity.id,
+        orElse: () =>
+            CheckableActivity(activity: Activity(name: '', id: 'none')),
+      );
+      if (before.id == 'none') {
+        return activity;
+      }
+      activity.isDone = before.isDone;
+      return activity;
+    }).toList();
+    return ActivitiesToday(
+      todayKey,
+      newActivities,
+    );
+  }
+
   Map<String, dynamic> toJSON() {
     final activitiesJSON =
         activities.map((activity) => activity.toJSON()).toList();
