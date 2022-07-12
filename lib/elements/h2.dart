@@ -9,7 +9,10 @@ class H2 extends StatelessWidget {
     final theme = Theme.of(context);
     return Text(
       text,
-      style: theme.textTheme.headline4,
+      textAlign: TextAlign.center,
+      style: theme.textTheme.headline4?.copyWith(
+        color: Colors.white,
+      ),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/activity.dart';
 
 typedef ActivityItemBuilder<T extends ActivityLike> = Widget Function(
-    T activity, BuildContext context);
+    T activity, BuildContext context, int index);
 
 typedef OnReorder = void Function(int oldIndex, int newIndex);
 
@@ -33,7 +33,7 @@ class ListContainer<T extends ActivityLike> extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
-          return builder(list[index], context);
+          return builder(list[index], context, index);
         },
         onReorder: (before, after) {
           if (onReorder != null) {
@@ -48,7 +48,7 @@ class ListContainer<T extends ActivityLike> extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        return builder(list[index], context);
+        return builder(list[index], context, index);
       },
     );
   }

@@ -15,7 +15,6 @@ final List<Activity> _defaultActivities = [
   Activity(name: 'Worksheets'),
   Activity(name: 'Khan Academy Kids'),
   Activity(name: 'Reading'),
-  // Activity(name: 'Physical Education (P.E.)'),
   Activity(name: 'Computer Work'),
 ];
 

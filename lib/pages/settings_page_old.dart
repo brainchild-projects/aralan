@@ -1,16 +1,16 @@
 import 'package:aralan/elements/activity_dialog.dart';
 import 'package:aralan/elements/choose_and_order_activities.dart';
 import 'package:aralan/elements/editable_activity_tile.dart';
+import 'package:aralan/elements/list_container.dart';
 import 'package:aralan/elements/navigation_button.dart';
+import 'package:aralan/models/activities_today.dart';
+import 'package:aralan/models/activity_repository.dart';
+import 'package:aralan/models/weekdays.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'elements/h2.dart';
-import 'elements/list_container.dart';
-import 'models/activities_today.dart';
-import 'models/activity.dart';
-import 'models/activity_repository.dart';
-import 'models/weekdays.dart';
+import '../elements/h2.dart';
+import '../models/activity.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -67,7 +67,7 @@ class SettingsPage extends StatelessWidget {
                             const H2('All Activities'),
                             ListContainer<Activity>(
                               list: allActivities,
-                              builder: (activity, context) {
+                              builder: (activity, context, _) {
                                 return EditableActivityTile(
                                     activity: activity,
                                     onChange: (activity) {

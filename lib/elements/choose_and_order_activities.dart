@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/activity.dart';
 import 'activity_list_tile.dart';
-import 'h3.dart';
+import 'h2.dart';
 import 'list_container.dart';
 
 typedef OnChooseActivities = Function(List<Activity> activity);
@@ -49,7 +49,7 @@ class _ChooseAndOrderActivitiesState extends State<ChooseAndOrderActivities> {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
+    final theme = Theme.of(context);
     final builder = StatefulBuilder(builder: (context, setDialogState) {
       final toggles = widget.available.map((activity) {
         return ToggleActivity(
@@ -86,37 +86,61 @@ class _ChooseAndOrderActivitiesState extends State<ChooseAndOrderActivities> {
         ],
       );
     });
-    final body = ListContainer<Activity>(
-      list: widget.list,
-      onReorder: (a, b) {
-        setState(() {
-          final tempList = _selectedActivities.toList();
-          _selectedActivities = Set.from(reorder(tempList, a, b));
-          widget.onChoose(_chosenActivities());
-        });
-      },
-      builder: (activity, _) {
-        return ActivityListTile(
-          key: Key(activity.id),
-          activity: activity,
-        );
-      },
+    final body = _body();
+    final action = _action(theme, builder);
+    final title = widget.title;
+    const spacer = SizedBox(height: 6.0);
+
+    final cells = title != null
+        ? [
+            H2(title),
+            const SizedBox(height: 20.0),
+            body,
+            spacer,
+            action,
+          ]
+        : [body, spacer, action];
+
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: cells,
+      ),
     );
-    final action = IconButton(
+  }
+
+  Widget _body() {
+    return Card(
+      child: ListContainer<Activity>(
+        list: widget.list,
+        onReorder: (a, b) {
+          setState(() {
+            final tempList = _selectedActivities.toList();
+            _selectedActivities = Set.from(reorder(tempList, a, b));
+            widget.onChoose(_chosenActivities());
+          });
+        },
+        builder: (activity, _, index) {
+          return ActivityListTile(
+            key: Key(activity.id),
+            activity: activity,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _action(ThemeData theme, StatefulBuilder builder) {
+    return FloatingActionButton(
       onPressed: () {
         showDialog(context: context, builder: (context) => builder);
       },
-      color: theme.colorScheme.primary,
-      icon: const Icon(Icons.add),
-    );
-
-    final cells = widget.title != null
-        ? [H3(widget.title!), body, action]
-        : [body, action];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: cells,
+      // color: theme.colorScheme.primary,
+      backgroundColor: theme.colorScheme.primary,
+      child: const Icon(Icons.add),
+      heroTag: widget.title,
     );
   }
 }

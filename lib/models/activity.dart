@@ -8,7 +8,9 @@ abstract class ActivityLike {
 }
 
 class Activity extends ActivityLike {
+  @override
   final String name;
+  @override
   final String id;
 
   Activity({required this.name, String? id}) : id = id ?? uuid.v4();

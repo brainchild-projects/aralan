@@ -1,13 +1,12 @@
 import 'package:aralan/elements/list_container.dart';
+import 'package:aralan/elements/navigation_button.dart';
 import 'package:aralan/elements/toggle_activity.dart';
 import 'package:aralan/models/activity.dart';
 import 'package:aralan/models/activity_repository.dart';
-import 'package:aralan/settings_page.dart';
+import 'package:aralan/pages/settings_page.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'elements/navigation_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title, required this.loadedAt})
@@ -71,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                     width: 560,
                     child: ListContainer<CheckableActivity>(
                       list: repo.activitiesToday(now).activities,
-                      builder: (activity, context) {
+                      builder: (activity, context, _) {
                         return ToggleActivity(
                           activity: activity,
                           onToggle: (foo) {
