@@ -1,3 +1,9 @@
+# 1.10.0 (2022-07-12)
+
+## Features
+
+- change settings page layout ([3692daa](commit/3692daa))
+
 # 1.9.0 (2022-06-10)
 
 ## Features
