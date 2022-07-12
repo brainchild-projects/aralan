@@ -1,3 +1,9 @@
+# 1.11.0 (2022-07-12)
+
+## Features
+
+- persist checked items when adding new activities ([95735c5](commit/95735c5))
+
 # 1.10.0 (2022-07-12)
 
 ## Features
